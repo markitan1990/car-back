@@ -1,0 +1,160 @@
+openapi: 3.0.3
+
+info:
+  title: API
+  description: API
+  version: '1.0.0'
+
+servers:
+  - url: 'http://localhost:8080'
+    description: URL локального доступа
+
+tags:
+  - name: admin
+    description: 'Общие методы'
+
+paths:
+
+  # common
+
+  /api/car-cards:
+    get:
+      tags:
+        - admin
+      summary: CarsApi
+      description: ''
+      operationId: getCarsCard
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarCardsResponse'
+
+  /api/submit-form:
+    post:
+      tags:
+        - admin
+      summary: FormApi
+      description: ''
+      operationId: sendForm
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FormRequest'
+      responses:
+        200:
+          description: 'OK'
+
+  /api/calc-fee:
+    post:
+      tags:
+        - admin
+      summary: CalcApi
+      description: ''
+      operationId: calculate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalculateRequest'
+      responses:
+        200:
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalculateResponse'
+
+components:
+
+  schemas:
+
+    FormRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        phoneNumber:
+          type: string
+
+    CarCardsResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        owner:
+          type: string
+        brand:
+          $ref: '#/components/schemas/CarBrand'
+        car_mileage:
+          type: integer
+        car_year:
+          type: integer
+        cost:
+          type: integer
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImgCarResponse'
+        car_condition:
+          type: string
+        car_engine:
+          type: number
+          format: double
+        description:
+          type: string
+        transmission:
+          type: string
+
+
+    ImgCarResponse:
+      type: object
+      properties:
+        car_cards_id:
+          type: integer
+          format: int64
+        link:
+          type: string
+
+    CarBrand:
+      type: object
+      properties:
+        car_cards_id:
+          type: integer
+          format: int64
+        car_name:
+          type: string
+        link:
+          type: string
+
+    CalculateRequest:
+      type: object
+      properties:
+        year:
+          type: integer
+        price:
+          type: integer
+        engine:
+          type: integer
+        face:
+          type: integer
+        volume:
+          type: integer
+        fuel:
+          type: integer
+        discount:
+          type: boolean
+
+    CalculateResponse:
+      type: object
+      properties:
+        answer:
+          type: string

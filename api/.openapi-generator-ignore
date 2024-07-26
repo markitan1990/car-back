@@ -1,0 +1,8 @@
+build.gradle.kts
+pom.xml
+README.md
+settings.gradle
+src/test/**
+src/main/resources/**
+src/main/**/ApiUtil.kt
+src/main/kotlin/org/**

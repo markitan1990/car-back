@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: car
+  profiles:
+    active: local
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://${PG_HOST:127.0.0.1}:${PG_PORT:5432}/${PG_DATABASE:car}?currentSchema=${PG_SCHEMA:cars}
+    driver-class-name: org.postgresql.Driver
+    username: ${PG_USER:postgres}
+    password: ${PG_PASSWORD:postgres}
+    hikari:
+      minimum-idle: 5 #Default: 10
+      maximum-pool-size: 10 #Default: 10
+      idle-timeout: 30000 #Default: 600000 (10 minutes)
+      pool-name: SpringBootJPAHikariCP
+      max-lifetime: 1200000 #Default: 1800000 (30 minutes)
+      connection-timeout: 20000 #Default: 30000 (30 seconds)
+  flyway:
+    enabled: true
+    locations: classpath:sql
+    default-schema: cars
+    schemas: cars
+
+server:
+  error:
+    include-stacktrace: always
+  port: 8080
+  test-mode: false
+

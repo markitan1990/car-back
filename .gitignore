@@ -1,3 +1,4 @@
+# Common #
 HELP.md
 .gradle
 build/
@@ -5,7 +6,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### STS ###
+# STS #
 .apt_generated
 .classpath
 .factorypath
@@ -17,7 +18,7 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
-### IntelliJ IDEA ###
+# IntelliJ IDEA #
 .idea
 *.iws
 *.iml
@@ -36,5 +37,29 @@ out/
 ### VS Code ###
 .vscode/
 
-### Kotlin ###
-.kotlin
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# virtual machine crash logs #
+hs_err_pid*
+replay_pid*
+
+local/docker_data

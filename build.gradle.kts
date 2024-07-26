@@ -1,42 +1,60 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "3.2.3"
-    id("io.spring.dependency-management") version "1.1.4"
-    kotlin("jvm") version "1.9.22"
-    kotlin("plugin.spring") version "1.9.22"
+    id("io.spring.dependency-management") version VER_DEPENDENCY_MANAGEMENT
+    id("org.springframework.boot") version VER_SPRING_BOOT apply false
+    id("org.openapi.generator") version VER_OPENAPI_GENERATOR apply false
+
+    kotlin("jvm") version VER_KOTLIN
+    kotlin("plugin.spring") version VER_KOTLIN apply false
 }
 
-group = "src.main"
-version = "0.0.1-SNAPSHOT"
+allprojects {
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-rest")
-    implementation("org.springframework.boot:spring-boot-starter-jooq")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.flywaydb:flyway-core")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
-    runtimeOnly("org.postgresql:postgresql")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs += "-Xjsr305=strict"
-        jvmTarget = "17"
+    repositories {
+        mavenLocal()
+        mavenCentral()
     }
-}
 
-tasks.withType<Test> {
-    useJUnitPlatform()
+    // Applying default plugins for each subproject
+    apply {
+        plugin("io.spring.dependency-management")
+        plugin("org.jetbrains.kotlin.jvm")
+    }
+
+    // Static versioned dependencies, which are missing from io.spring.dependency-management
+    dependencies {
+        implementation("org.springdoc:springdoc-openapi-ui:$VER_SPRINGDOC")
+        implementation("org.springframework.boot:spring-boot-starter-jooq")
+        implementation("org.jooq:jooq")
+        implementation("org.jooq:jooq-meta")
+        implementation("org.flywaydb:flyway-core")
+        runtimeOnly("org.postgresql:postgresql")
+    }
+
+    // Used to include non-versioned dependencies from org.springframework.boot plugin in subprojects
+    dependencyManagement {
+        // Override default bom versions
+        ext["kotlin.version"] = VER_KOTLIN
+
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:$VER_SPRING_BOOT")
+        }
+    }
+
+    tasks.withType<JavaCompile> {
+        sourceCompatibility = VER_JAVA
+        targetCompatibility = VER_JAVA
+    }
+
+    tasks.withType<KotlinCompile> {
+        kotlinOptions {
+            freeCompilerArgs = listOf("-Xjsr305=strict")
+            jvmTarget = VER_JAVA
+        }
+    }
+
+    tasks.withType<Test> {
+        useJUnitPlatform()
+    }
 }
