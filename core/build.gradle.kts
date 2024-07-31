@@ -17,8 +17,8 @@ jib {
             "$version"
         )
         auth {
-            username = "markitan1990"
-            password = "dckr_pat_TMUt0BSzAOhs8P8-vne_LR4A8kU"
+            username = getenv("DOCKER_USERNAME")
+            password = getenv("DOCKER_PASSWORD")
         }
     }
     container {
