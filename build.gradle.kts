@@ -4,7 +4,7 @@ plugins {
     id("io.spring.dependency-management") version VER_DEPENDENCY_MANAGEMENT
     id("org.springframework.boot") version VER_SPRING_BOOT apply false
     id("org.openapi.generator") version VER_OPENAPI_GENERATOR apply false
-
+    id("com.google.cloud.tools.jib") version VER_JIB apply false
     kotlin("jvm") version VER_KOTLIN
     kotlin("plugin.spring") version VER_KOTLIN apply false
 }

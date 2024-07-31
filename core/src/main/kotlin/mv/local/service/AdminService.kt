@@ -21,7 +21,7 @@ class AdminService(
         return repo.getCarsWithImages()
     }
 
-    override fun sendForm(form: FormRequest) {
-        telegramService.sendForm(form)
+    override fun sendForm(formRequest: FormRequest) {
+        telegramService.sendForm(formRequest)
     }
 }

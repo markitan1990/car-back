@@ -1,7 +1,29 @@
+import java.lang.System.getenv
+
 plugins {
     id("org.springframework.boot")
-
+    id("com.google.cloud.tools.jib")
     kotlin("plugin.spring")
+}
+version = "0.0.1-SNAPSHOT"
+
+jib {
+    from {
+        image = "eclipse-temurin:$VER_JAVA-jdk"
+    }
+    to {
+        image = "markitan1990/drivehub"
+        tags = setOfNotNull(
+            "$version"
+        )
+        auth {
+            username = "markitan1990"
+            password = "dckr_pat_TMUt0BSzAOhs8P8-vne_LR4A8kU"
+        }
+    }
+    container {
+        jvmFlags = listOf("-XX:+PrintFlagsFinal")
+    }
 }
 
 dependencies {
@@ -17,14 +39,6 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
     implementation("org.apache.httpcomponents:httpclient:4.5.13")
-
-    //DB
-//    implementation("org.springframework.boot:spring-boot-starter-jooq")
-//    implementation("org.jooq:jooq")
-//    implementation("org.jooq:jooq-meta")
-//    implementation("org.flywaydb:flyway-core")
-//    runtimeOnly("org.postgresql:postgresql")
-
 
     // Marshalling/Unmarshalling
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
